@@ -1,0 +1,1 @@
+This is an example for the course JUnit 5 and TestNG for the https://platform.productstar.ru/
