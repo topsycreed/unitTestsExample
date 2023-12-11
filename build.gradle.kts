@@ -14,8 +14,10 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(platform("org.junit:junit-bom:5.9.1"))
+    implementation("org.junit.jupiter:junit-jupiter")
+    implementation("org.seleniumhq.selenium:selenium-java:4.16.1")
+    testImplementation("io.github.bonigarcia:selenium-jupiter:5.0.0")
 }
 
 tasks.test {
