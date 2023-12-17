@@ -1,75 +1,101 @@
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.productstar.User;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("smoke")//тег всех тестов
 public class SimpleJUnitTest {
 
     @Test
-    public void first() throws Exception{
-        System.out.println("FirstParallelUnitTest first() start => " + Thread.currentThread().getName());
-        Thread.sleep(500);
-        System.out.println("FirstParallelUnitTest first() end => " + Thread.currentThread().getName());
+    void simpleJUnitTest() {
+        // Здесь размещаем код теста
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        // Используем assertTrue, assertFalse, assertEquals и другие методы Assertions
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    public void second() throws Exception{
-        System.out.println("FirstParallelUnitTest second() start => " + Thread.currentThread().getName());
-        Thread.sleep(500);
-        System.out.println("FirstParallelUnitTest second() end => " + Thread.currentThread().getName());
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideParameters")
-    void testWithCustomParameters(String parameter) {
-        List<String> expectedList = Arrays.asList("one", "two", "three");
-        assertTrue(expectedList.contains(parameter.toLowerCase(Locale.ROOT)));
-    }
-
-    static Stream<String> provideParameters() {
-        return Stream.of("One", "Two", "Three");
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 3})
-    void testWithParameters(int parameter) {
-        int actualSum = parameter + parameter;
-        int expectedSum = 2 * parameter;
-        assertEquals(expectedSum, actualSum, "Суммы должны быть разными");
-    }
-
-    @ParameterizedTest
-    @CsvSource({"John, Doe", "Alice, Smith"})
-    void testWithCsvParameters(String firstName, String lastName) {
-        List<String> expectedPeople = Arrays.asList("John Doe1", "Alice Smith");
-        assertTrue(expectedPeople.contains(firstName + " " + lastName));
+    @Disabled //тест не будет запущен,  в отчет попадет как ignored
+    void disabledJUnitTest() {
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void assertsJUnitTest() {
+    @DisplayName("Сложение двух чисел")
+    void JUnitTestWithName() {
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    @Tag("sum")//тег конкретного теста
+    void JUnitTestWithTag() {
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    @Timeout(value = 2)
+    void JUnitTestWithTimeout() throws InterruptedException {
+        Thread.sleep(2000);
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        assertEquals(expectedSum, actualSum);
+    }
+
+
+    @RepeatedTest(value = 3, name = "Сложение двух чисел - повторение {currentRepetition} из {totalRepetitions}")
+    void repeatedJUnitTest() {
+        int actualSum = 2 + 2;
+        int expectedSum = 5;
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    void JUnitTestWithAssertEquals() {
+        int actualSum = 2 + 2;
+        int expectedSum = 5;
+        // Используем assertTrue, assertFalse, assertEquals и другие методы Assertions
+        assertEquals(expectedSum, actualSum, "Суммы должны одинаковыми");
+    }
+
+    @Test
+    void JUnitTestAssertBoolean() {
+        int actualSum = 2 + 2;
+        int expectedSum = 4;
+        boolean result = actualSum == expectedSum;
+        assertTrue(result);
+        assertFalse(result, "Суммы должны быть разными");
+    }
+
+    @Test
+    void JUnitTestAssertThrows() {
+        String name = null;
+        // Проверяем, что при попытке работать с null строкой выбрасывается исключение NullPointerException
+        assertThrows(NullPointerException. class, () -> name.length(),
+                "Должно быть выброшено исключение NullPointerException");
+    }
+
+    @Test
+    void JUnitTestAssertAll() {
         User user = new User("John", "Doe", 30);
         assertAll(
-                () -> assertEquals("John", user.getFirstName(), "Неправильное имя"),
-                () -> assertEquals("Doe", user.getLastName(), "Неправильная фамилия"),
-                () -> assertEquals(30, user.getAge(), "Неправильный возраст")
+                () -> assertEquals("John1", user.getFirstName(), "Неправильное имя"),
+                () -> assertEquals("Doe2", user.getLastName(), "Неправильная фамилия"),
+                () -> assertEquals(31, user.getAge(),  "Неправильный возраст")
         );
     }
 
     @Test
-    @Tag("smoke")
-    @DisplayName("Сумма двух чисел")
-    void simpleJUnitTest() {
-        int actualSum = 2 + 2;
-        int expectedSum = 4;
-        assertEquals(expectedSum, actualSum, "Суммы должны быть разными");
+    void JUnitTestAssertAllSeparate() {
+        User user = new User("John", "Doe", 30);
+        assertEquals("John1", user.getFirstName(), "Неправильное имя");
+        assertEquals("Doe2", user.getLastName(), "Неправильная фамилия");
+        assertEquals(31, user.getAge(),  "Неправильный возраст");
     }
 }
