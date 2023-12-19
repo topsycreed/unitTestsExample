@@ -15,13 +15,9 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-    implementation ("io.qameta.allure:allure-junit5:2.19.0")
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.junit-pioneer:junit-pioneer:2.2.0")
+    testImplementation("org.testng:testng:7.8.0")
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useTestNG()
 }
